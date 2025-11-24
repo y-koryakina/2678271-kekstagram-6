@@ -1,10 +1,5 @@
 const checkLength = function(str, len) {
-  if(str.length <= len){
-    return true;
-  }
-  else{
-    return false;
-  }
+  return(str.length <= len);
 };
 
 const isPalindrome = function(str) {
@@ -35,3 +30,6 @@ const getNumbers = function(input) {
   return parseInt(res, 10);
 };
 
+checkLength('проверяемая строка', 20);
+isPalindrome('топот');
+getNumbers('а я томат');
