@@ -33,3 +33,18 @@ const getNumbers = function(input) {
 checkLength('проверяемая строка', 20);
 isPalindrome('топот');
 getNumbers('а я томат');
+
+
+const isMeetingOk = function(startDay, endDay, startMeeting, duration) {
+  function parseTime(str) {
+    const [h, m] = str.split(':').map(Number);
+    return h * 60 + m;
+  }
+
+  const meetingEnd = parseTime(startMeeting) + duration;
+
+  return parseTime(startMeeting) >= parseTime(startDay) && meetingEnd <= parseTime(endDay);
+};
+
+
+isMeetingOk('8:00', '17:30', '08:00', 900);
