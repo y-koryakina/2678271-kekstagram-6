@@ -15,24 +15,46 @@ function onDocumentKeydown(evt) {
   }
 }
 
-function renderComments(comments) {
-  const fragment = document.createDocumentFragment();
-  commentsList.innerHTML = '';
+function renderMoreComments(comments, fragment, position) {
+  let end = position + 5;
 
-  comments.forEach(({avatar, name, message}) => {
+  if(comments.length < end){
+    end = comments.length;
+  }
+
+  for(let i = position; i < end; i++){
     const li = document.createElement('li');
     li.classList.add('social__comment');
 
     li.innerHTML = `
-      <img class="social__picture" src="${avatar}" alt="${name}" width="35" height="35">
-      <p class="social__text">${message}</p>
+      <img class="social__picture" src="${comments[i].avatar}" alt="${comments[i].name}" width="35" height="35">
+      <p class="social__text">${comments[i].message}</p>
     `;
 
     fragment.appendChild(li);
-  });
+  }
 
+  commentCountBlock.innerHTML = `
+    ${end} из <span class="comments-count">${comments.length}</span> комментариев
+    `;
   commentsList.appendChild(fragment);
 }
+
+
+function renderCommentsFragment(comments) {
+  const fragment = document.createDocumentFragment();
+  commentsList.innerHTML = '';
+
+  renderMoreComments(comments, fragment, 0);
+
+  let counter = 0;
+  commentsLoader.addEventListener('click', () => {
+    counter += 5;
+    renderMoreComments(comments, fragment, counter);
+
+  });
+}
+
 
 export function openBigPicture({url, description, likes, comments}) {
   bigPicture.classList.remove('hidden');
@@ -46,10 +68,7 @@ export function openBigPicture({url, description, likes, comments}) {
 
   caption.textContent = description;
 
-  commentCountBlock.classList.add('hidden');
-  commentsLoader.classList.add('hidden');
-
-  renderComments(comments);
+  renderCommentsFragment(comments);
 
   document.addEventListener('keydown', onDocumentKeydown);
 }
