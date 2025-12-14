@@ -29,3 +29,4 @@ export const MAX_COMMENTS_СOUNT = 30;
 export const MIN_LIKES = 15;
 export const MAX_LIKES = 200;
 
+export const COMMENTS_PER_PORTION = 5;

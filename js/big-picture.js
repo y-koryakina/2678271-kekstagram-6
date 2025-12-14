@@ -1,3 +1,5 @@
+import {COMMENTS_PER_PORTION} from './constants.js';
+
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
 const likesCount = bigPicture.querySelector('.likes-count');
@@ -8,7 +10,6 @@ const closeBtn = bigPicture.querySelector('.big-picture__cancel');
 const commentCountBlock = bigPicture.querySelector('.social__comment-count');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
 
-const COMMENTS_PER_PORTION = 5;
 
 function onDocumentKeydown(evt) {
   if (evt.key === 'Escape') {
@@ -20,8 +21,12 @@ function onDocumentKeydown(evt) {
 function renderMoreComments(comments, fragment, position) {
   let end = position + COMMENTS_PER_PORTION;
 
-  if(comments.length < end){
+  if(comments.length <= end){
     end = comments.length;
+    commentsLoader.classList.add('hidden');
+  }
+  else{
+    commentsLoader.classList.remove('hidden');
   }
 
   for(let i = position; i < end; i++){
@@ -46,6 +51,12 @@ function renderMoreComments(comments, fragment, position) {
 function renderCommentsFragment(comments) {
   const fragment = document.createDocumentFragment();
   commentsList.innerHTML = '';
+
+  if(comments.length === 0){
+    commentsLoader.classList.add('hidden');
+    commentCountBlock.classList.add('hidden');
+    return;
+  }
 
   renderMoreComments(comments, fragment, 0);
 
