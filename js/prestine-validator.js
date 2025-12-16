@@ -1,3 +1,4 @@
+import {MAX_TAG_COUNT} from './constants.js';
 const uploadForm = document.querySelector('.img-upload__form');
 const hashtagInput = uploadForm.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
@@ -12,55 +13,59 @@ export const pristine = new Pristine(uploadForm, {
 }, false);
 
 
-function validateHashtags(value) {
+function parseHashtags(value) {
+  return value
+    .trim()
+    .split(/\s+/)
+    .map((tag) => tag.toLowerCase());
+}
+
+
+function validateHashtagCount(value) {
   if (!value) {
     return true;
   }
 
-  const tags = value.trim().split(/\s+/).map((tag) => tag.toLowerCase());
-
-  if (tags.length > 5) {
-    return false;
-  }
-
-  const pattern = /^#[a-zа-яё0-9]{1,19}$/i;
-  for (const tag of tags) {
-    if (!pattern.test(tag)) {
-      return false;
-    }
-  }
-
-  const uniqueTags = new Set(tags);
-  return uniqueTags.size === tags.length;
+  return parseHashtags(value).length <= MAX_TAG_COUNT;
 }
 
 
-function hashtagErrorMsg(value) {
+function validateHashtagFormat(value) {
   if (!value) {
-    return '';
-  }
-
-  const tags = value.trim().split(/\s+/).map((tag) => tag.toLowerCase());
-
-  if (tags.length > 5) {
-    return 'Нельзя указать больше 5 хэш-тегов';
+    return true;
   }
 
   const pattern = /^#[a-zа-яё0-9]{1,19}$/i;
-  for (const tag of tags) {
-    if (!pattern.test(tag)) {
-      return 'Введен невалидный хэш-тег';
-    }
-  }
-
-  const uniqueTags = new Set(tags);
-  if (uniqueTags.size !== tags.length) {
-    return 'Хэш-теги не должны повторяться';
-  }
-  return '';
+  return parseHashtags(value).every((tag) => pattern.test(tag));
 }
 
-pristine.addValidator(hashtagInput, validateHashtags, hashtagErrorMsg);
+
+function validateHashtagUnique(value) {
+  if (!value) {
+    return true;
+  }
+
+  const tags = parseHashtags(value);
+  return new Set(tags).size === tags.length;
+}
+
+pristine.addValidator(
+  hashtagInput,
+  validateHashtagCount,
+  'Нельзя указать больше 5 хэш-тегов'
+);
+
+pristine.addValidator(
+  hashtagInput,
+  validateHashtagFormat,
+  'Введён невалидный хэш-тег'
+);
+
+pristine.addValidator(
+  hashtagInput,
+  validateHashtagUnique,
+  'Хэш-теги не должны повторяться'
+);
 
 function validateComment(value) {
   return value.length <= 140;

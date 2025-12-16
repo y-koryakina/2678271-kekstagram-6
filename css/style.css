@@ -1395,3 +1395,15 @@ main {
 .hidden {
   display: none;
 }
+
+.img-upload__field-wrapper {
+  position: relative;
+  margin-bottom: 22px; /* Отступ между полями */
+}
+
+/* Стили для текста ошибки */
+.form__error {
+  position: absolute;
+  left: 10%;
+  top: -30%; /* Позиционирование под полем */
+}
