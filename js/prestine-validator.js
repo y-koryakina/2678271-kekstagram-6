@@ -1,4 +1,4 @@
-import {MAX_TAG_COUNT} from './constants.js';
+import {MAX_TAG_COUNT, MAX_COMMENT_LENGTH, HASHTAG_PATTERN} from './constants.js';
 const uploadForm = document.querySelector('.img-upload__form');
 const hashtagInput = uploadForm.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
@@ -35,7 +35,7 @@ function validateHashtagFormat(value) {
     return true;
   }
 
-  const pattern = /^#[a-zа-яё0-9]{1,19}$/i;
+  const pattern = HASHTAG_PATTERN;
   return parseHashtags(value).every((tag) => pattern.test(tag));
 }
 
@@ -52,23 +52,26 @@ function validateHashtagUnique(value) {
 pristine.addValidator(
   hashtagInput,
   validateHashtagCount,
-  'Нельзя указать больше 5 хэш-тегов'
+  'Нельзя указать больше 5 хэш-тегов',
+  3
 );
 
 pristine.addValidator(
   hashtagInput,
   validateHashtagFormat,
-  'Введён невалидный хэш-тег'
+  'Введён невалидный хэш-тег',
+  2
 );
 
 pristine.addValidator(
   hashtagInput,
   validateHashtagUnique,
-  'Хэш-теги не должны повторяться'
+  'Хэш-теги не должны повторяться',
+  1
 );
 
 function validateComment(value) {
-  return value.length <= 140;
+  return value.length <= MAX_COMMENT_LENGTH;
 }
 
-pristine.addValidator(commentInput, validateComment, 'Комментарий не должен быть длиннее 140 символов');
+pristine.addValidator(commentInput, validateComment, `Комментарий не должен быть длиннее ${MAX_COMMENT_LENGTH} символов`);
