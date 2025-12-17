@@ -52,7 +52,7 @@ function validateHashtagUnique(value) {
 pristine.addValidator(
   hashtagInput,
   validateHashtagCount,
-  'Нельзя указать больше 5 хэш-тегов',
+  `Нельзя указать больше ${MAX_TAG_COUNT} хэш-тегов`,
   3
 );
 
