@@ -69,6 +69,7 @@ pristine.addValidator(
   1
 );
 
+
 function validateComment(value) {
   return value.length <= MAX_COMMENT_LENGTH;
 }
