@@ -1195,7 +1195,7 @@ main {
   top: 0;
   right: 0;
   bottom: 0;
-  z-index: 1;
+  z-index: 20;
 
   background-color: rgba(0, 0, 0, 0.8);
 }
@@ -1398,12 +1398,26 @@ main {
 
 .img-upload__field-wrapper {
   position: relative;
-  margin-bottom: 22px; /* Отступ между полями */
+  margin-bottom: 22px;
 }
 
-/* Стили для текста ошибки */
 .form__error {
   position: absolute;
   left: 10%;
-  top: -30%; /* Позиционирование под полем */
+  top: -30%;
 }
+
+.form__send_error{
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+
+  padding: 15px 30px;
+  background-color: rgb(255, 0, 0);
+  border-radius: 10px;
+  text-align: center;
+}
+
+

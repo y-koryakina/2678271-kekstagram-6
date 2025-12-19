@@ -1,4 +1,8 @@
-import {pristine} from './prestine-validator.js'
+import {pristine} from './prestine-validator.js';
+import {sendData} from './api.js';
+import { showSuccessModal } from './success-modal.js';
+import { showErrorModal } from './error-modal.js';
+
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
 const uploadInput = document.querySelector('.img-upload__input');
@@ -27,26 +31,43 @@ function openUploadForm() {
   document.addEventListener('keydown', onDocumentKeydown);
 }
 
+function resetForm() {
+  uploadForm.reset();
+  pristine.reset();
+  uploadInput.value = '';
+}
+
 function closeUploadForm() {
   uploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
 
-  uploadForm.reset();
-  pristine.reset();
-  uploadInput.value = '';
+  resetForm();
 
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
-
 uploadInput.addEventListener('change', openUploadForm);
 uploadCancelBtn.addEventListener('click', closeUploadForm);
 
-uploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const isValid = pristine.validate();
+const showFormError = function () {
+  showErrorModal();
+};
 
-  if (!isValid) {
-    return;
-  }
-});
+const showFormSuccess = function(){
+  closeUploadForm();
+  showSuccessModal();
+};
+
+export const setUserFormSubmit = (onSuccess, onFail) => {
+  uploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+
+    if (isValid) {
+      const formData = new FormData(evt.target);
+      sendData(formData).then(onSuccess).catch((error) => onFail(error));
+    }
+  });
+};
+
+setUserFormSubmit(showFormSuccess, showFormError);

@@ -2,13 +2,10 @@ import {createPictures} from './data.js';
 import {openBigPicture} from './big-picture.js';
 
 
-export function renderPictures() {
+export function renderPictures(similarPictures) {
   const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   const picturesBlock = document.querySelector('.pictures');
   const similarListFragment = document.createDocumentFragment();
-
-  const similarPictures = createPictures();
-
 
   similarPictures.forEach(({url, description, likes, comments}) => {
     const pictureElement = pictureTemplate.cloneNode(true);

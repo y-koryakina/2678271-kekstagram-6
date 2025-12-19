@@ -226,6 +226,24 @@
     </section>
   </template>
 
+  <div class="form__send_error hidden">
+    Ошибка
+  </div>
+
+  <section class="success hidden">
+    <div class="success__inner">
+      <h2 class="success__title">Изображение успешно загружено</h2>
+      <button type="button" class="success__button">Круто!</button>
+    </div>
+  </section>
+
+  <section class="error hidden">
+    <div class="error__inner">
+      <h2 class="error__title">Ошибка загрузки файла</h2>
+      <button type="button" class="error__button">Загрузить другой файл</button>
+    </div>
+  </section>
+
   <!-- Экран загрузки изображения -->
   <template id="messages">
     <div class="img-upload__message  img-upload__message--loading">Загружаем...</div>
