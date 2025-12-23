@@ -1,5 +1,5 @@
 import {GET_DATA_ERROR_MSG} from './constants.js';
-const BASE_URL = 'https://29.javascript.htmlacademy.pr/kekstagram';
+const BASE_URL = 'https://29.javascript.htmlacademy.pro/kekstagram';
 const Route = {
   GET_DATA: '/data',
   SEND_DATA: '/',
