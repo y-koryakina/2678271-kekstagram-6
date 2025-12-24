@@ -10,10 +10,6 @@ const Method = {
   POST: 'POST',
 };
 
-const ErrorText = {
-  GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
-};
-
 const load = (route, method = Method.GET, body = null) =>
   fetch(`${BASE_URL}${route}`, {method, body})
     .then((response) => {
