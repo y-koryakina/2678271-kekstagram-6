@@ -4,6 +4,7 @@ import {getData} from './api.js';
 import {setDefault, setRandom, setDiscussed} from './filters.js';
 import { debounce } from './util.js';
 import { DEBOUNCE_DELAY } from './constants.js';
+import './preview.js';
 
 const debouncedRenderPictures = debounce(renderPictures, DEBOUNCE_DELAY);
 
