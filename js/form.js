@@ -40,7 +40,7 @@ function resetForm() {
   uploadInput.value = '';
 }
 
-function closeUploadForm() {
+export function closeUploadForm() {
   uploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
 
