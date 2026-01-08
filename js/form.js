@@ -44,7 +44,7 @@ function onDocumentKeydown(evt) {
     return;
   }
 
-  if (!document.querySelector('.error.hidden')) {
+  if (document.querySelector('.error')) {
     return;
   }
 
