@@ -10,7 +10,6 @@ const closeBtn = bigPicture.querySelector('.big-picture__cancel');
 const commentCountBlock = bigPicture.querySelector('.social__comment-count');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
 
-
 function onDocumentKeydown(evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
@@ -47,6 +46,13 @@ function renderMoreComments(comments, fragment, position) {
   commentsList.appendChild(fragment);
 }
 
+let currentComments = [];
+let currentPosition = 0;
+
+function onLoadMoreClick() {
+  currentPosition += COMMENTS_PER_PORTION;
+  renderMoreComments(currentComments, document.createDocumentFragment(), currentPosition);
+}
 
 function renderCommentsFragment(comments) {
   const fragment = document.createDocumentFragment();
@@ -63,15 +69,11 @@ function renderCommentsFragment(comments) {
 
   renderMoreComments(comments, fragment, 0);
 
-  let counter = 0;
-  const onClickLoadMore = () => {
-    counter += COMMENTS_PER_PORTION;
-    renderMoreComments(comments, fragment, counter);
-  };
+  currentComments = comments;
+  currentPosition = 0;
 
-
-  commentsLoader.removeEventListener('click', onClickLoadMore);
-  commentsLoader.addEventListener('click', onClickLoadMore);
+  commentsLoader.removeEventListener('click', onLoadMoreClick);
+  commentsLoader.addEventListener('click', onLoadMoreClick);
 }
 
 
