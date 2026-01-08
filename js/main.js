@@ -19,13 +19,15 @@ getData()
     const filters = document.querySelector('.img-filters');
     filters.classList.remove('img-filters--inactive');
   })
-  .catch((error) => {
-    const errorBlock = document.querySelector('.form__send_error');
-    errorBlock.classList.remove('hidden');
-    errorBlock.textContent = error.message;
+  .catch(() => {
+    const template = document.querySelector('#data-error-template');
+    const errorElement = template.content.cloneNode(true).querySelector('.data-error');
 
-    setTimeout(() => {
-      errorBlock.classList.add('hidden');
-      errorBlock.textContent = '';
-    }, 3000);
+    function removeError() {
+      errorElement.remove();
+    }
+
+    document.body.appendChild(errorElement);
+
+    setTimeout(removeError, 3000);
   });
